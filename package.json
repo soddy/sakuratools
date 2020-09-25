@@ -1,0 +1,21 @@
+{
+  "name": "sakuratools",
+  "version": "1.0.0",
+  "description": "flash canvas导出为h5工具",
+  "main": "index.js",
+  "scripts": {
+    "help": "node help.js",
+    "new": "node newproject.js",
+    "start": "node start.js",
+    "buildaudio": "gulp buildaudio"
+  },
+  "author": "soddy gu",
+  "license": "ISC",
+  "dependencies": {
+    "chokidar": "^2.0.4",
+    "gulp": "^4.0.2"
+  },
+  "devDependencies": {
+    "gulp-audiosprite": "^1.1.0"
+  }
+}
