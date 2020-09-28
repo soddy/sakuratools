@@ -5,11 +5,9 @@
 2.  生成音频分割文件，提供给howler.js使用
 
 #### 版本说明
-工具版本：1.0.0
-
-核心引擎版本：1.0.0
-
-UI版本：1.0.0
+工具版本：1.0.0<br/>
+核心引擎版本：1.0.0<br/>
+UI版本：1.0.0<br/>
 
 #### 工具版本更新说明
 
@@ -25,42 +23,28 @@ UI版本：1.0.0
 4.  npm run buildaudio	分割压缩音频文件，提供给howler.js使用，压缩地址为项目目录src/resource/sounds/，压缩到项目目录src/resource/sounds/dist
 
 #### 工具目录说明
-├─sakuratools
-│  │  gulpfile.js  分割音频文件gulp使用的配置文件
-│  │  newproject.js  生成新项目的nodejs文件
-│  │  start.js  工具主文件，用于监听动画文件变化的nodejs文件
-│  │  
-│  ├─dist  核心引擎和UI的打包和压缩文件目录
-│  ├─src  核心引擎和UI为打包的文件
-│  │  ├─core
-│  │  └─ui
-│  └─template  生成新项目的模板文件
-│      │  index.html
-│      ├─js
-│      │      main.js
-│      │      templateClass.tpl
-│      └─libs
-│              createjs.min.js
-│              howler.min.js
-│              resource.js
-│              sakuraCore.min.js
-│              sakuraUI.min.js
-│              vconsole.min.js
+-sakuratools    工具文件夹<br/>
+	-dist		核心引擎和UI的打包和压缩文件目录<br/>
+	-src    	核心引擎和UI为打包的文件<br/>
+	-template   生成新项目的模板文件<br/>
+	-gulpfile.js    分割音频文件gulp使用的配置文件<br/>
+	-newproject.js 	生成新项目的nodejs文件<br/>
+	-start.js 		工具主文件，用于监听动画文件变化的nodejs文件<br/>
 
 #### 整个项目目录
--projectDir			项目目录
-	-sakuratools	sakura工具目录
-	-animate		动画文件夹，里面存放的是fla动画文件
-		-images		动画导出的图片文件
-		-resource	动画图片源文件
-	-src 			项目开发目录
-		-animatejs	通过sakuratools start监听动画js文件变化后导出到开发目录的js动画文件都放在这个目录，这个目录中的文件不要去修改
-		-js			开发js目录，主要开发文件在该目录
-			-lib	js库文件地址，如create.js，sakura.js，howler.js文件等
-		-resource	h5所需的资源文件都放在这个文件夹
-			-images	动画导出的图片文件
-			-sounds	howler.js所需的音频文件
-			-video	视频文件夹
+-projectDir			项目目录<br/>
+	-sakuratools	sakura工具目录<br/>
+	-animate		动画文件夹，里面存放的是fla动画文件<br/>
+		-images		动画导出的图片文件<br/>
+		-resource	动画图片源文件<br/>
+	-src 			项目开发目录<br/>
+		-animatejs	通过sakuratools start监听动画js文件变化后导出到开发目录的js动画文件都放在这个目录，这个目录中的文件不要去修改<br/>
+		-js			开发js目录，主要开发文件在该目录<br/>
+			-lib	js库文件地址，如create.js，sakura.js，howler.js文件等<br/>
+		-resource	h5所需的资源文件都放在这个文件夹<br/>
+			-images	动画导出的图片文件<br/>
+			-sounds	howler.js所需的音频文件<br/>
+			-video	视频文件夹<br/>
 
 #### 小贴士
 1.   开发时基本都是在src/js/ 文件夹下的js文件中开发，main.js为入口文件，loading之类的可以在这个文件。
