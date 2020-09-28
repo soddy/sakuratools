@@ -6,7 +6,9 @@
 
 #### 版本说明
 工具版本：1.0.0
+
 核心引擎版本：1.0.0
+
 UI版本：1.0.0
 
 #### 工具版本更新说明
@@ -23,13 +25,27 @@ UI版本：1.0.0
 4.  npm run buildaudio	分割压缩音频文件，提供给howler.js使用，压缩地址为项目目录src/resource/sounds/，压缩到项目目录src/resource/sounds/dist
 
 #### 工具目录说明
--sakuratools    工具文件夹
-	-dist		核心引擎和UI的打包和压缩文件目录
-	-src    	核心引擎和UI为打包的文件
-	-template   生成新项目的模板文件
-	-gulpfile.js    分割音频文件gulp使用的配置文件
-	-newproject.js 	生成新项目的nodejs文件
-	-start.js 		工具主文件，用于监听动画文件变化的nodejs文件
+├─sakuratools
+│  │  gulpfile.js  分割音频文件gulp使用的配置文件
+│  │  newproject.js  生成新项目的nodejs文件
+│  │  start.js  工具主文件，用于监听动画文件变化的nodejs文件
+│  │  
+│  ├─dist  核心引擎和UI的打包和压缩文件目录
+│  ├─src  核心引擎和UI为打包的文件
+│  │  ├─core
+│  │  └─ui
+│  └─template  生成新项目的模板文件
+│      │  index.html
+│      ├─js
+│      │      main.js
+│      │      templateClass.tpl
+│      └─libs
+│              createjs.min.js
+│              howler.min.js
+│              resource.js
+│              sakuraCore.min.js
+│              sakuraUI.min.js
+│              vconsole.min.js
 
 #### 整个项目目录
 -projectDir			项目目录
