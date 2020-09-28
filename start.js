@@ -1,4 +1,4 @@
-//version:1.0.0
+//version:1.1.0
 //监听animate文件夹中的文件变化，以及animate/images，animate/sounds，animate/components文件夹中文件变化
 //animate文件夹中的js文件有变化，就复制到src文件夹下的animatejs文件夹中
 //animate/images文件夹有变化，就复制有变化的文件到src/images文件夹中
@@ -38,20 +38,11 @@ function handleFile(_path, _status){
 			fs.readFile(_path, 'utf8', function(err, data){
 				if(err) throw err;
 				//将lib替换为ClassName
-				let replaceData = data.replace(/lib\,/g, ''+ className +',').replace(/lib\./g, ''+ className +'.').replace(/lib = lib/g, ''+ className +' = '+ className +'');
+				let replaceData = rewrite_classname(data, className);
 				//将replaceData中的new Class()这样实例化的代码替换为sakura.movieClip()这样的代码
-				let newLength = replaceData.split('new '+className+'').length - 1;
-				for(let i=0;i<newLength;i++){
-					let _start = find(replaceData, 'new '+className+'', i);
-					let _thisStart = replaceData.lastIndexOf('this.', _start);
-					let _end = replaceData.indexOf(')',_start) + 1;
-					let replaceStr = replaceData.substring(_thisStart, _end);
-					let _start_ = find(replaceStr, 'new '+className+'', 0);
-					let _end_ = replaceStr.indexOf(')',_start_) + 1;
-					let _replaceStr_ = replaceStr.substring(_start_, _end_);
-					let replaceStr_ = replaceStr.replace(_replaceStr_, 'sakura.movieClip('+_replaceStr_+')');
-					replaceData = replaceData.replace(replaceStr, replaceStr_);
-				}
+				replaceData = replace_sakuraMc(replaceData, className);
+				//在每个mc最后都加入dispatchEvent,表示mc播放完毕
+				replaceData = add_dispatchEvent(replaceData);
 				//将replaceData中的manifest重写
 				replaceData = rewrite_manifest(replaceData);
 				//将替换好的字符串写入src/animatejs文件夹中
@@ -97,6 +88,27 @@ function handleFile(_path, _status){
 		}
 	}
 }
+//将lib替换为ClassName
+function rewrite_classname(replaceData, className){
+	replaceData = replaceData.replace(/lib\,/g, ''+ className +',').replace(/lib\./g, ''+ className +'.').replace(/lib = lib/g, ''+ className +' = '+ className +'');
+	return replaceData;
+}
+//将replaceData中的new Class()这样实例化的代码替换为sakura.movieClip()这样的代码
+function replace_sakuraMc(replaceData, className){
+	let newLength = replaceData.split('new '+className+'').length - 1;
+	for(let i=0;i<newLength;i++){
+		let _start = find(replaceData, 'new '+className+'', i);
+		let _thisStart = replaceData.lastIndexOf('this.', _start);
+		let _end = replaceData.indexOf(')',_start) + 1;
+		let replaceStr = replaceData.substring(_thisStart, _end);
+		let _start_ = find(replaceStr, 'new '+className+'', 0);
+		let _end_ = replaceStr.indexOf(')',_start_) + 1;
+		let _replaceStr_ = replaceStr.substring(_start_, _end_);
+		let replaceStr_ = replaceStr.replace(_replaceStr_, 'sakura.movieClip('+_replaceStr_+')');
+		replaceData = replaceData.replace(replaceStr, replaceStr_);
+	}
+	return replaceData;
+}
 //manifest重写
 function rewrite_manifest(replaceData){
 	let _start = find(replaceData, 'manifest', 0);
@@ -134,6 +146,26 @@ function rewrite_manifest(replaceData){
 		});
 	}
 	replaceData = replaceData.replace(manifestReplaceStr, 'manifest: [' + obj_arr_to_str(newManifestArr) + ']');
+	return replaceData;
+}
+//加入dispatchEvent
+function add_dispatchEvent(replaceData){
+	let replaceStr_ = `;
+	var _self = this;
+	this.timeline.addEventListener('change', function(){
+		if(_self.currentFrame == _self.timeline.duration - 1){
+			_self.dispatchEvent('animationEnd');
+		}
+	});
+	}).prototype = p = new cjs.MovieClip();`;
+	let newLength = replaceData.split('}).prototype = p = new cjs.MovieClip()').length - 1;
+	for(let i=0;i<newLength;i++){
+		let _start = find(replaceData, '}).prototype = p = new cjs.MovieClip()', i);
+		let _thisStart = replaceData.lastIndexOf(';', _start);
+		let _end = replaceData.indexOf(';',_start) + 1;
+		let replaceStr = replaceData.substring(_thisStart, _end);
+		replaceData = replaceData.replace(replaceStr, replaceStr_);
+	}
 	return replaceData;
 }
 //转变为首字母大写
