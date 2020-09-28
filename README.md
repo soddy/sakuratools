@@ -24,27 +24,27 @@ UI版本：1.0.0<br/>
 
 #### 工具目录说明
 -sakuratools    工具文件夹<br/>
-	-dist		核心引擎和UI的打包和压缩文件目录<br/>
-	-src    	核心引擎和UI为打包的文件<br/>
-	-template   生成新项目的模板文件<br/>
-	-gulpfile.js    分割音频文件gulp使用的配置文件<br/>
-	-newproject.js 	生成新项目的nodejs文件<br/>
-	-start.js 		工具主文件，用于监听动画文件变化的nodejs文件<br/>
+&nbsp;&nbsp;-dist		核心引擎和UI的打包和压缩文件目录<br/>
+&nbsp;&nbsp;-src    	核心引擎和UI为打包的文件<br/>
+&nbsp;&nbsp;-template   生成新项目的模板文件<br/>
+&nbsp;&nbsp;-gulpfile.js    分割音频文件gulp使用的配置文件<br/>
+&nbsp;&nbsp;-newproject.js 	生成新项目的nodejs文件<br/>
+&nbsp;&nbsp;-start.js 		工具主文件，用于监听动画文件变化的nodejs文件<br/>
 
 #### 整个项目目录
 -projectDir			项目目录<br/>
-	-sakuratools	sakura工具目录<br/>
-	-animate		动画文件夹，里面存放的是fla动画文件<br/>
-		-images		动画导出的图片文件<br/>
-		-resource	动画图片源文件<br/>
-	-src 			项目开发目录<br/>
-		-animatejs	通过sakuratools start监听动画js文件变化后导出到开发目录的js动画文件都放在这个目录，这个目录中的文件不要去修改<br/>
-		-js			开发js目录，主要开发文件在该目录<br/>
-			-lib	js库文件地址，如create.js，sakura.js，howler.js文件等<br/>
-		-resource	h5所需的资源文件都放在这个文件夹<br/>
-			-images	动画导出的图片文件<br/>
-			-sounds	howler.js所需的音频文件<br/>
-			-video	视频文件夹<br/>
+&nbsp;&nbsp;-sakuratools	sakura工具目录<br/>
+&nbsp;&nbsp;-animate		动画文件夹，里面存放的是fla动画文件<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;-images		动画导出的图片文件<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;-resource	动画图片源文件<br/>
+&nbsp;&nbsp;-src 			项目开发目录<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;-animatejs	通过sakuratools start监听动画js文件变化后导出到开发目录的js动画文件都放在这个目录，这个目录中的文件不要去修改<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;-js			开发js目录，主要开发文件在该目录<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-lib	js库文件地址，如create.js，sakura.js，howler.js文件等<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;-resource	h5所需的资源文件都放在这个文件夹<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-images	动画导出的图片文件<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-sounds	howler.js所需的音频文件<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-video	视频文件夹<br/>
 
 #### 小贴士
 1.   开发时基本都是在src/js/ 文件夹下的js文件中开发，main.js为入口文件，loading之类的可以在这个文件。
