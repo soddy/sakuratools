@@ -1,3 +1,4 @@
+//version:1.0.0
 //监听animate文件夹中的文件变化，以及animate/images，animate/sounds，animate/components文件夹中文件变化
 //animate文件夹中的js文件有变化，就复制到src文件夹下的animatejs文件夹中
 //animate/images文件夹有变化，就复制有变化的文件到src/images文件夹中
@@ -6,16 +7,6 @@
 let chokidar = require('chokidar');
 let fs = require('fs');
 let path = require('path');
-
-// let a = 'abc this.instance = new Index.fang2();';
-// let _start = find(a, 'new Index', 0);
-// let _start = a.indexOf('new Index');
-// let _thisStart = a.lastIndexOf('this.', _start);
-// console.log(_start);
-// console.log(_thisStart);
-// return;
-// let _end = replaceData.indexOf(')',_start) + 1;
-// let replaceStr = replaceData.substring(_start, _end);
 
 let watcher = null;
 
