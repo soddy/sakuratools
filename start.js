@@ -1,4 +1,4 @@
-//version:1.1.0
+//version:1.1.1
 //监听animate文件夹中的文件变化，以及animate/images，animate/sounds，animate/components文件夹中文件变化
 //animate文件夹中的js文件有变化，就复制到src文件夹下的animatejs文件夹中
 //animate/images文件夹有变化，就复制有变化的文件到src/images文件夹中
@@ -124,7 +124,7 @@ function rewrite_manifest(replaceData){
 	for(let i=0;i<manifestArr.length;i++){
 		//如果不是js文件，重新写入资源文件的manifest
 		if(manifestArr[i]['src'].indexOf('.js') == -1){
-			newManifestObj['src'] = manifestArr[i]['src'];
+			newManifestObj['src'] = 'resource/'+manifestArr[i]['src'];
 			newManifestObj['id'] = manifestArr[i]['id'];
 			newManifestArr.push(newManifestObj);
 			newManifestObj = {};
