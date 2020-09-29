@@ -11,7 +11,7 @@
     //加载资源返回blob写入_images
     var _images = {};
 
-    sakura.loadScene = function(sceneName, progressFun, completeFun){
+    sakura.loadScene = function(sceneName, progressFun, completeFun, cdn){
         _loadPer = _totalLoadRes = _loadSinglePer = _loadedLoadRes = 0;
         _images = {};
         sakura.data.resource = {};
@@ -20,11 +20,20 @@
             var loader = new createjs.LoadQueue(false);
             if(sceneName.indexOf('.json')!=-1){
                 //json文件
-                loader.loadManifest('resource/'+sceneName);
+                //json文件格式 [{"src":"http://domain/_2020.png", "id":"_2020"}] 数组对象
+                loader.loadManifest('js/resource/'+sceneName);
                 loader.on("fileload", function(e){
                     var manifestArr = e.result;
                     manifestArr = manifestArr.delEmptyObj();
                     if(manifestArr.length != 0) {
+                        if(cdn != undefined){
+                            for(var i=0;i<manifestArr.length;i++){
+                                if(manifestArr[i].src.indexOf('http') == -1 && manifestArr[i].src.indexOf('https') == -1){
+                                    var manifestSplit = manifestArr[i].src.split('/');
+                                    manifestArr[i].src = cdn + manifestSplit[manifestSplit.length-1];
+                                }
+                            }
+                        }
                         _onRESProgress(manifestArr, function (pre) {
                             progressFun(pre);
                         }, function (e) {
@@ -37,6 +46,7 @@
                 });
             }else{
                 //class文件
+                //加载格式  'index'
                 var fileArr = [];
                 fileArr.push('animatejs/'+ sceneName +'.js?'+r);
                 fileArr.push('js/'+ sceneName +'Class.js?'+r);
@@ -45,6 +55,14 @@
                     var manifestArr = get_class_name(sceneName).properties.manifest;
                     manifestArr = manifestArr.delEmptyObj();
                     if(manifestArr.length != 0) {
+                        if(cdn != undefined){
+                            for(var i=0;i<manifestArr.length;i++){
+                                if(manifestArr[i].src.indexOf('http') == -1 && manifestArr[i].src.indexOf('https') == -1){
+                                    var manifestSplit = manifestArr[i].src.split('/');
+                                    manifestArr[i].src = cdn + manifestSplit[manifestSplit.length-1];
+                                }
+                            }
+                        }
                         _onRESProgress(manifestArr, function (pre) {
                             progressFun(pre);
                         }, function (e) {
@@ -64,6 +82,7 @@
                 });
             }
         }else if(Array.isArray(sceneName)){
+            //加载格式  ['index','a.json',{manifest:[{'src':'',id:''}]}]
             sceneName = sceneName.unique3();
             var fileArr = [];
             var jsonFileArr = [];
@@ -73,7 +92,7 @@
                 //先判断有没有json文件，如果有，先处理json文件
                 if(typeof(sceneName[i]) === 'string'){
                     if(sceneName[i].indexOf('.json')!=-1){
-                        jsonFileArr.push('resource/'+sceneName[i]);
+                        jsonFileArr.push('js/resource/'+sceneName[i]);
                     }else{
                         fileArr.push('animatejs/'+ sceneName[i] +'.js?'+r);
                         fileArr.push('js/'+ sceneName[i] +'Class.js?'+r);
@@ -121,6 +140,14 @@
                         manifestArr = manifestArr.delEmptyObj();
                         if(manifestArr.length != 0){
                             manifestArr = uniqe_by_keys(manifestArr, ['src','id']);
+                            if(cdn != undefined){
+                                for(var i=0;i<manifestArr.length;i++){
+                                    if(manifestArr[i].src.indexOf('http') == -1 && manifestArr[i].src.indexOf('https') == -1){
+                                        var manifestSplit = manifestArr[i].src.split('/');
+                                        manifestArr[i].src = cdn + manifestSplit[manifestSplit.length-1];
+                                    }
+                                }
+                            }
                             _onRESProgress(manifestArr, function(pre){
                                 progressFun(pre);
                             }, function(e){
@@ -141,11 +168,20 @@
                 }
             },20);
         }else if(!Array.isArray(sceneName) && sceneName !== undefined){
+            // {manifest:[{'src':'http://domain/img.png',id: 'img'}]}   必须是manifest数组对象
             if(sceneName.hasOwnProperty('manifest')){
                 if(sceneName.manifest.length != 0){
                     var manifestArr = uniqe_by_keys(sceneName.manifest, ['src','id']);
                     manifestArr = manifestArr.delEmptyObj();
                     if(manifestArr.length != 0){
+                        if(cdn != undefined){
+                            for(var i=0;i<manifestArr.length;i++){
+                                if(manifestArr[i].src.indexOf('http') == -1 && manifestArr[i].src.indexOf('https') == -1){
+                                    var manifestSplit = manifestArr[i].src.split('/');
+                                    manifestArr[i].src = cdn + manifestSplit[manifestSplit.length-1];
+                                }
+                            }
+                        }
                         _onRESProgress(manifestArr, function(pre){
                             progressFun(pre);
                         }, function(e){
