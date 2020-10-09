@@ -7,13 +7,20 @@
     "help": "node help.js",
     "new": "node newproject.js",
     "start": "node start.js",
-    "buildaudio": "gulp buildaudio"
+    "buildaudio": "gulp buildaudio",
+    "build": "gulp build"
   },
   "author": "soddy gu",
   "license": "ISC",
   "dependencies": {
     "chokidar": "^2.0.4",
-    "gulp": "^4.0.2"
+    "gulp": "^4.0.2",
+    "gulp-clean": "^0.4.0",
+    "gulp-htmlmin": "^5.0.1",
+    "gulp-imagemin": "^7.1.0",
+    "gulp-pngquant": "^1.0.13",
+    "gulp-sourcemaps": "^2.6.5",
+    "gulp-uglify": "^3.0.2"
   },
   "devDependencies": {
     "gulp-audiosprite": "^1.1.0"

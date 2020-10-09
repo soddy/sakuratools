@@ -14,6 +14,7 @@ UI版本：1.0.0<br/>
 1.1.0 在每个mc中加入了动画播放完成发送animationEnd事件
 
 #### 核心引擎版本更新说明
+1.2.1 设置mc位置,mc.position.top(),left(),right(),bottom()<br/>
 1.2.0 加一个调用外部资源的功能，绝对链接是cdn的
 
 #### UI版本更新说明
