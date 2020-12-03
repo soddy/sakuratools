@@ -341,9 +341,17 @@ var sakura;
                 //class文件
                 //加载格式  'index'
                 var fileArr = [];
-                fileArr.push('animatejs/'+ sceneName +'.js?'+r);
-                fileArr.push('js/'+ sceneName +'Class.js?'+r);
+                if(cdn != undefined){
+                    fileArr.push(cdn+'animatejs/'+ sceneName +'.js?'+r);
+                    fileArr.push(cdn+'js/'+ sceneName +'Class.js?'+r);
+                }else{
+                    fileArr.push('animatejs/'+ sceneName +'.js?'+r);
+                    fileArr.push('js/'+ sceneName +'Class.js?'+r);
+                }
                 loader.loadManifest(fileArr);
+                loader.on("progress", function(evt){
+                    progressFun(parseInt(evt.loaded/evt.total * 10));
+                });
                 loader.on("complete", function(){
                     var manifestArr = get_class_name(sceneName).properties.manifest;
                     manifestArr = manifestArr.delEmptyObj();
@@ -357,7 +365,7 @@ var sakura;
                             }
                         }
                         _onRESProgress(manifestArr, function (pre) {
-                            progressFun(pre);
+                            progressFun(10+parseInt(pre*0.9));
                         }, function (e) {
                             //所有资源加载完成                      
                             var ssMetadata = get_class_name(sceneName).ssMetadata;
@@ -385,10 +393,19 @@ var sakura;
                 //先判断有没有json文件，如果有，先处理json文件
                 if(typeof(sceneName[i]) === 'string'){
                     if(sceneName[i].indexOf('.json')!=-1){
-                        jsonFileArr.push('js/resource/'+sceneName[i]);
+                        if(cdn != undefined){
+                            jsonFileArr.push(cdn+'js/resource/'+sceneName[i]);
+                        }else{
+                            jsonFileArr.push('js/resource/'+sceneName[i]);
+                        }
                     }else{
-                        fileArr.push('animatejs/'+ sceneName[i] +'.js?'+r);
-                        fileArr.push('js/'+ sceneName[i] +'Class.js?'+r);
+                        if(cdn != undefined){
+                            fileArr.push(cdn+'animatejs/'+ sceneName[i] +'.js?'+r);
+                            fileArr.push(cdn+'js/'+ sceneName[i] +'Class.js?'+r);
+                        }else{
+                            fileArr.push('animatejs/'+ sceneName[i] +'.js?'+r);
+                            fileArr.push('js/'+ sceneName[i] +'Class.js?'+r);
+                        }
                         sceneName_.push(sceneName[i]);
                     }
                 }else if(!Array.isArray(sceneName[i]) && sceneName[i] !== undefined){
@@ -417,6 +434,9 @@ var sakura;
                     clearInterval(st);
                     var loader1 = new createjs.LoadQueue(false);
                     loader1.loadManifest(fileArr);
+                    loader1.on("progress", function(evt){
+                        progressFun(parseInt(evt.loaded/evt.total * 10));
+                    });
                     loader1.on("complete", function(){
                         var manifestArr = [];
                         var ssMetadata = [];
@@ -442,7 +462,7 @@ var sakura;
                                 }
                             }
                             _onRESProgress(manifestArr, function(pre){
-                                progressFun(pre);
+                                progressFun(10+parseInt(pre*0.9));
                             }, function(e){
                                 //所有资源加载完成
                                 if(ssMetadata.length != 0){
@@ -549,18 +569,34 @@ var sakura;
                     var blob = this.response;
 
                     var imgRegex = /([^\s]+(?=\.(jpg|png|jpeg|gif))\.\2)/gi;
-                    var videoRegex = /([^\s]+(?=\.(ac3|m4a|mp3|ogg))\.\2)/gi;
+                    var audioRegex = /([^\s]+(?=\.(ac3|m4a|mp3|ogg))\.\2)/gi;
+                    var videoRegex = /([^\s]+(?=\.(mp4))\.\2)/gi;
                     var ire = new RegExp(imgRegex);
                     if (ire.test(url.toLowerCase())){
                         var img = document.createElement("img");
                         img.src = window.URL.createObjectURL(blob);
                         sakura.data.resource[id] = img.src;
                     }
-                    var vre = new RegExp(videoRegex);
-                    if (vre.test(url.toLowerCase())){
+                    var are = new RegExp(audioRegex);
+                    if (are.test(url.toLowerCase())){
                         var audio = document.createElement("audio");
                         audio.src = window.URL.createObjectURL(blob);
                         sakura.data.resource[id] = audio.src;
+                    }
+                    var vre = new RegExp(videoRegex);
+                    if (vre.test(url.toLowerCase())){
+                        var video = document.createElement("video");
+                        video.src = window.URL.createObjectURL(blob);
+                        sakura.data.resource[id] = video.src;
+                        video.setAttribute("id", id);
+                        video.setAttribute("crossorigin", "anonymous");
+                        video.setAttribute("webkit-playsinline", "true");
+                        video.setAttribute("playsinline", "true");
+                        video.setAttribute("preload", "true");
+                        video.setAttribute("x5-video-player-type", "h5-page");
+                        video.setAttribute("style", "width:100%; position:absolute; z-index:1; display:none;");
+                        video.setAttribute("src", video.src);
+                        document.body.appendChild(video);
                     }
                     callbackFun(img);
                 }else if(this.status == 404){
@@ -575,7 +611,7 @@ var sakura;
         this.getTotal = function(){
             return this.total;
         }
-    }
+    };
 })(sakura || (sakura = {}));
 /**
  * 将字符串转为类名，首字母大写，如loading=>Loading
