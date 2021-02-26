@@ -1,4 +1,4 @@
-var ver = '1.0.0';
+var ver = '1.0.1';
 var sakuraUI;
 
 (function(sakuraUI){

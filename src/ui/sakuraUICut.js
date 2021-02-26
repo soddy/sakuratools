@@ -186,18 +186,21 @@
             },
             cut: function(mc, imgType){
                 var copyMc;
-                if(mc.children[0].width == undefined){
-                    copyMc = Object.create(mc.children[0].parent);
-                }else{
-                    copyMc = Object.create(mc.children[0]);
-                }
-                var w = copyMc.nominalBounds.width;
-                var h = copyMc.nominalBounds.height;
-                var x = copyMc.regX;
-                var y = copyMc.regY;
-                copyMc.x = Math.abs(x);
-                copyMc.y = Math.abs(y);
-                stageCutMc.addChild(copyMc);
+                var w = mc.nominalBounds.width;
+                var h = mc.nominalBounds.height;
+                mc.children.forEach(function(e, i){
+                    if(mc.children[i].width == undefined){
+                        copyMc = Object.create(mc.children[i].parent);
+                    }else{
+                        copyMc = Object.create(mc.children[i]);
+                    }
+                    var x = copyMc.x;
+                    var y = copyMc.y;
+                    copyMc.x = Math.abs(x);
+                    copyMc.y = Math.abs(y);
+                    stageCutMc.addChild(copyMc);
+                    stageCutMc.update();
+                })
                 stageCutMc.update();
                 var image = sakuraUI.cutPart(stageCutMc, 0, 0, w, h, imgType);
                 stageCutMc.removeAllChildren();
