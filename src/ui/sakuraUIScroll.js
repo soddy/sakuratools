@@ -7,7 +7,7 @@
 	 * @return {[type]}             [description]
 	 */
 	sakuraUI.scroll = function(pageList, scrollPanel, orientation) {
-		orientation = orientation || 1;
+		orientation = orientation === 1 ? 1 : 0;
 		var self = this;
 		/**
 		 * 加速度的倍值，该值越大手指松开后页面滚动的越多，建议10-15之间
@@ -110,6 +110,9 @@
 			}
 
 			function _vertical() {
+				if(pagesTotalHeight <= scrollPanel.height){
+					return;
+				}
 				var yLimit = scrollPanel.height - pagesTotalHeight; //需要滑动的页面y坐标可到的极限，用于控制上拉下拉的回弹
 				scrollPanel.on('mousedown', function(e) {
 					startTime = Date.now();
@@ -242,6 +245,9 @@
 			}
 
 			function _horizontal() {
+				if(pagesTotalWidth <= scrollPanel.width){
+					return;
+				}
 				var xLimit = scrollPanel.width - pagesTotalWidth; //需要滑动的页面y坐标可到的极限，用于控制上拉下拉的回弹
 				scrollPanel.on('mousedown', function(e) {
 					startTime = Date.now();
