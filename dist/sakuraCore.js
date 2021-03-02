@@ -1,4 +1,4 @@
-var ver = '1.2.1';
+var ver = '1.2.3';
 var sakura;
 (function(sakura){
     /**
@@ -283,7 +283,7 @@ var sakura;
     p.debug = function(){
         if(sakura.debug){
             var loader = new createjs.LoadQueue(false);
-            loader.loadFile('libs/vconsole.min.js');
+            loader.loadFile('js/libs/vconsole.min.js');
             loader.on("fileload", function(){
                 new VConsole();
             });

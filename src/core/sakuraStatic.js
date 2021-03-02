@@ -1,4 +1,4 @@
-var ver = '1.2.1';
+var ver = '1.2.3';
 var sakura;
 (function(sakura){
     /**
